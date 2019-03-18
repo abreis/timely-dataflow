@@ -518,7 +518,7 @@ impl<G: Scope, D1: Data> Operator<G, D1> for Stream<G, D1> {
 /// Creates a new data stream source for a scope.
 ///
 /// The source is defined by a name, and a constructor which takes a default capability to
-/// a method that can be repeatedly called on a output handle. The method is then repeatedly
+/// a method that can be repeatedly called on an output handle. The method is then repeatedly
 /// invoked, and is expected to eventually send data and downgrade and release capabilities.
 ///
 /// # Examples

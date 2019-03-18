@@ -110,7 +110,7 @@ impl<'a, T, D, P: Push<Bundle<T, D>>+'a> Session<'a, T, D, P>  where T: Eq+Clone
     ///
     /// The `Content` type is the backing memory for communication in timely, and it can
     /// often be more efficient to re-use this memory rather than have timely allocate
-    /// new backing memory.
+    /// new backing memory. [FIXME: was `Content` deprecated?]
     #[inline(always)]
     pub fn give_vec(&mut self, message: &mut Vec<D>) {
         if message.len() > 0 {
@@ -143,7 +143,7 @@ impl<'a, T: Timestamp, D, P: Push<Bundle<T, D>>+'a> AutoflushSession<'a, T, D, P
     }
     /// Transmits a pre-packed batch of data.
     #[inline(always)]
-    pub fn give_content(&mut self, message: &mut Vec<D>) {
+    pub fn give_content(&mut self, message: &mut Vec<D>) { // [FIXME: should this be renamed to `give_vec`?]
         if message.len() > 0 {
             self.buffer.give_vec(message);
         }

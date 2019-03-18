@@ -42,7 +42,7 @@ The heart of the logic lies in the closure that binds `input` and `output`. Thes
 
 The input handle `input` has one primary method, `next`, which may return a pair of timestamp and batch of data. Rust really likes you to demonstrate a commitment to only looking at valid data, and our `while` loop does what is called deconstruction: we acknowledge the optional structure and only execute in the case the `Option` variant is `Some`, containing data. The `next` method could also return `None`, indicating that there is no more data available at the moment. It is strongly recommended that you take the hint and stop trying to read inputs at that point; timely gives you the courtesy of executing whatever code you want in this closure, but if you never release control back to the system you'll break things (timely employs ["cooperative multitasking"](https://en.wikipedia.org/wiki/Cooperative_multitasking)).
 
-The output handle `output` has one primary method, `session`, which starts up an output session at the indicated time. The resulting session can be given data in various ways: (i) element at a time with `give`, (ii) iterator at a time with `give_iterator`, and (iii) vector at a time with `give_content`. Internally it is buffering up the output and flushing automatically when the session goes out of scope, which happens above when we go around the `while` loop.
+The output handle `output` has one primary method, `session`, which starts up an output session at the indicated time. The resulting session can be given data in various ways: (i) element at a time with `give`, (ii) iterator at a time with `give_iterator`, and (iii) vector at a time with `give_content` [FIXME: `give_vec?`]. Internally it is buffering up the output and flushing automatically when the session goes out of scope, which happens above when we go around the `while` loop.
 
 ### Other shapes
 
@@ -50,7 +50,9 @@ The `unary` method is handy if you have one input and one output. What if you wa
 
 There is a `binary` method which looks a lot like unary, except that it has twice as many inputs (and ways to distribute the inputs), and requires a closure accepting two inputs and one output. You still get to write arbitrary code to drive the operator around as you like.
 
-There is also a method `operators::source` which .. has no inputs. You can't call it on a stream, for obvious reasons, but you call it with a scope as an argument. It looks just like the other methods, except you supply a closure that just takes an output as an argument and sends whatever it wants each time it gets called. This is great for reading from external sources and moving data along as you like.
+There is also a method `operators::source` which... has no inputs. You can't call it on a stream, for obvious reasons, but you call it with a scope as an argument. It looks just like the other methods, except you supply a closure that just takes an output as an argument and sends whatever it wants each time it gets called. This is great for reading from external sources and moving data along as you like.
+
+[TODO: mention OperatorBuilder for more complex applications]
 
 ### Capabilities
 
@@ -270,5 +272,7 @@ fn main() {
     });
 }
 ```
+
+[NOTE: would it be reasonable to derive Ord for CapabilityRef (?) so we could store time capabilities in a BTreeMap and not have to run through the entire map to compare against the frontiers?]
 
 Take a moment and check out the differences. Mainly, `stash` is now the one source of truth about `time` and `data`, but we now have to do our own checking of `time` against the input frontiers, and *very importantly* we need to make sure to discard `time` from the `stash` when we are finished with it (otherwise we retain the ability to send at `time`, and the system will not make progress).
