@@ -335,7 +335,7 @@ impl<T: Timestamp> FrontierNotificator<T> {
     ///
     /// In the interest of efficiency, this method may yield capabilities in decreasing order, in certain
     /// circumstances. If you want to iterate through capabilities with an in-order guarantee, either (i)
-    /// use `for_each`
+    /// use `for_each` [FIXME]
     #[inline]
     pub fn next<'a>(&mut self, frontiers: &'a [&'a MutableAntichain<T>]) -> Option<Capability<T>> {
         if self.available.is_empty() {

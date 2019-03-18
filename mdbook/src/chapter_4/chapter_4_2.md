@@ -37,7 +37,7 @@ This program first creates a loop variable, using the `loop_variable` method on 
 
 We start with a stream of the numbers from one through nine, because we have to start somewhere. Our plan is to repeatedly apply the Collatz step, and then discard any numbers equal to one, but we want to apply this not only to our input but also to whatever comes back around our loop variable. So, the very first step is to `concat` our input stream with the feedback stream. Then we can apply the Collatz step, filter out the ones, and then connect the resulting stream as the definition of the feedback stream.
 
-We've built an upper limit of `100` in so that we don't spin out of control, in case the conjecture is false. It turns out that `9` will take 19 steps to converge, so this should be good enough. You could try it out for larger numbers!
+We've built an upper limit of `100` [FIXME: where is this limit in the code?] in so that we don't spin out of control, in case the conjecture is false. It turns out that `9` will take 19 steps to converge, so this should be good enough. You could try it out for larger numbers!
 
 ## Mutual Recursion
 

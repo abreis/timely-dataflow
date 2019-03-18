@@ -4,7 +4,7 @@ What if there isn't an operator that does what you want to do? What if what you 
 
 Timely has several "generic" dataflow operators that are pretty much ready to run, except someone (you) needs to supply their implementation. This isn't as scary as it sounds; you just need to write a closure that says "given a handle to my inputs and outputs, what do I do when timely asks me to run?".
 
-Let's look at an example
+Let's look at an example:
 
 ```rust
 extern crate timely;

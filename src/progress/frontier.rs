@@ -17,7 +17,7 @@ pub struct Antichain<T> {
 impl<T: PartialOrder> Antichain<T> {
     /// Updates the `Antichain` if the element is not greater than or equal to some present element.
     ///
-    /// Returns true if element is added to the set
+    /// Returns true if the element is added to the set.
     ///
     /// # Examples
     ///
@@ -154,7 +154,7 @@ impl<T: PartialOrder> Antichain<T> {
 ///
 /// There is an `update_dirty` method for single updates that leave the `MutableAntichain` in a dirty state,
 /// but I strongly recommend against using them unless you must (on part of timely progress tracking seems
-/// to be greatly simplified by access to this)
+/// to be greatly simplified by access to this).
 #[derive(Clone, Debug)]
 pub struct MutableAntichain<T: PartialOrder+Ord> {
     dirty: usize,
