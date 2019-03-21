@@ -41,6 +41,14 @@ impl<T, D> EventPusher<T, D> for ::std::sync::mpsc::Sender<Event<T, D>> {
     }
 }
 
+// Support capturing into Crossbeam's MPMC channels.
+#[cfg(feature = "crossbeam")]
+impl<T, D> EventPusher<T, D> for crossbeam_channel::Sender<Event<T, D>> {
+    fn push(&mut self, event: Event<T, D>) {
+        let _ = self.send(event);
+    }
+}
+
 /// A linked-list event pusher and iterator.
 pub mod link {
 

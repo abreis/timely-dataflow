@@ -47,7 +47,15 @@ pub trait Extract<T: Ord, D: Ord> {
     fn extract(self) -> Vec<(T, Vec<D>)>;
 }
 
-impl<T: Ord, D: Ord> Extract<T,D> for ::std::sync::mpsc::Receiver<Event<T, D>> {
+#[allow(dead_code)]
+#[cfg(not(feature = "crossbeam"))]
+/// The result of a stream captured into a Rust MPSC channel.
+type Receiver<T, D> = ::std::sync::mpsc::Receiver<Event<T, D>>;
+#[cfg(feature = "crossbeam")]
+/// The result of a stream captured into a Crossbeam MPMC channel.
+type Receiver<T, D> = crossbeam_channel::Receiver<Event<T, D>>;
+
+impl<T: Ord, D: Ord> Extract<T, D> for Receiver<T, D> {
     fn extract(self) -> Vec<(T, Vec<D>)> {
         let mut result = Vec::new();
         for event in self {

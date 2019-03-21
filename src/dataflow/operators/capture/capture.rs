@@ -108,9 +108,18 @@ pub trait Capture<T: Timestamp, D: Data> {
     /// ```
     fn capture_into<P: EventPusher<T, D>+'static>(&self, pusher: P);
 
+    #[cfg(not(feature = "crossbeam"))]
     /// Captures a stream using Rust's MPSC channels.
     fn capture(&self) -> ::std::sync::mpsc::Receiver<Event<T, D>> {
         let (send, recv) = ::std::sync::mpsc::channel();
+        self.capture_into(send);
+        recv
+    }
+
+    #[cfg(feature = "crossbeam")]
+    /// Captures a stream using Crossbeam's MPMC channels.
+    fn capture(&self) -> crossbeam_channel::Receiver<Event<T, D>> {
+        let (send, recv) = crossbeam_channel::unbounded();
         self.capture_into(send);
         recv
     }
