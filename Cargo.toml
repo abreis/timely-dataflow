@@ -16,7 +16,7 @@ keywords = ["timely", "dataflow"]
 license = "MIT"
 
 [features]
-bincode= ["timely_communication/bincode"]
+bincode = ["timely_communication/bincode"]
 
 [dependencies]
 serde = "1.0"
@@ -28,8 +28,8 @@ timely_logging = { path = "./logging", version = "0.7" }
 timely_communication = { path = "./communication", version = "0.8" }
 
 [dev-dependencies]
-timely_sort="0.1.6"
-rand="0.4"
+timely_sort = "0.1.6"
+rand = "0.4"
 
 [profile.release]
 opt-level = 3

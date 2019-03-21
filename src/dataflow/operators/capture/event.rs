@@ -32,7 +32,7 @@ pub trait EventPusher<T, D> {
 }
 
 
-// implementation for the linked list behind a `Handle`.
+// Implementation for the linked list behind a `Handle`.
 impl<T, D> EventPusher<T, D> for ::std::sync::mpsc::Sender<Event<T, D>> {
     fn push(&mut self, event: Event<T, D>) {
         // NOTE: An Err(x) result just means "data not accepted" most likely
