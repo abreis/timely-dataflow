@@ -48,7 +48,7 @@ Let's talk about each of them.
 
 ## Input capabilities
 
-The `input` structure is how we provide data to a timely dataflow computation, and it has a timestamp associated with it. Initially this timestamp is the default value, usually something like `0` for integers. Whatever timestamp `input` has, it can introduce data with that timestamp or greater. We can advance this timestamp, via the `advance_to` method, which restricts the timestamps we can use to those greater or equal to whatever timestamp is supplied as the argument.
+The `input` structure is how we provide data to a timely dataflow computation, and it has a timestamp associated with it. Initially this timestamp is the default value, usually something like `0` for integers. Whatever timestamp `input` has, it can introduce data with that timestamp or greater. [NOTE: this is confusing, because `input.send()` doesn't take a timestamp, so we can't really send data of timestamps != input.time(). The way this paragraph is written says "we can send data with any timestamp in the future", when in fact if we want to send data in a future timestamp we have to .advance_to() that timestamp] We can advance this timestamp, via the `advance_to` method, which restricts the timestamps we can use to those greater or equal to whatever timestamp is supplied as the argument.
 
 The `advance_to` method is a big deal. This is the moment in the computation where our program reveals to the system, and through the system to all other dataflow workers, that we might soon be able to announce a timestamp as complete. There may still be records in flight bearing that timestamp, but as they are retired the system can finally report that progress has been made.
 
